@@ -137,6 +137,11 @@ STATICFILES_DIRS =[
     os.path.join(BASE_DIR,"statics")
 ]
 # ############################# 腾讯云短信配置 ##########################
+TENCENT_SECRET_ID = "AKIDyqhLlwnd9UvBnBFI9nEJDuMYYN0Of11l"
+TENCENT_SECRET_KEY = "g8M1S7Wlkl5D6PUNlupUvBPPAk5B3h6O"
+TENCENT_CITY = "ap-guangzhou"
+TENCENT_APP_ID = "1400304759"
+TENCENT_SIGN = "文字的独白"
 
 REST_FRAMEWORK = {
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',  #

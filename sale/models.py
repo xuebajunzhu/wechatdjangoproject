@@ -17,17 +17,20 @@ class SaleCategory(models.Model):
     成交额
     全场保证金
     """
-    image_url = models.CharField(verbose_name="专场首页图片", max_length=256)
+    # FileField = 数据保存文件路径CharField + ModelForm显示时File来生成标签 + ModelForm.save()
+    image_url = models.FileField(verbose_name="专场首页图片", max_length=256)
     video_url = models.CharField(verbose_name="专场首页视频", max_length=256, null=True, blank=True)
     title = models.CharField(verbose_name="专场标题", max_length=64)
     status_choice = (
         (1, "预展中"),
         (2, "拍卖中"),
-        (3, "已结束")
+        (3, "已结束"),
+        (4, "未开始"),
     )
     status = models.IntegerField(verbose_name="状态", choices=status_choice, default=1)
     start_time = models.DateTimeField(verbose_name="开始时间")
     end_time = models.DateTimeField(verbose_name="结束时间")
+    preview_start_time = models.DateTimeField(verbose_name="预展时间",null=True,blank=True)
     cash_deposit = models.PositiveIntegerField(verbose_name="全场保证金", default=10000)
 
     commodity_count = models.PositiveIntegerField(verbose_name="拍品数量", default=0)
@@ -64,8 +67,16 @@ class Commodity(models.Model):
     salecategory = models.ForeignKey(verbose_name="拍卖专场", to="SaleCategory", on_delete=models.CASCADE,
                                      related_name="commodity")
     title = models.CharField(verbose_name="名称", max_length=64)
-    image_url = models.CharField(verbose_name="封面", max_length=256)
+    image_url = models.FileField(verbose_name="封面", max_length=256)
     video_url = models.CharField(verbose_name="拍品首页视频", max_length=256, null=True, blank=True)
+    status_choices = (
+        (1, '未开拍'),
+        (2, '预展中'),
+        (3, '拍卖中'),
+        (4, '成交'),
+        (5, '流拍'),
+    )
+    status = models.PositiveSmallIntegerField(verbose_name='状态', choices=status_choices, default=1)
 
     starting_price = models.PositiveIntegerField(verbose_name="起拍价", default=0)
     present_price = models.PositiveIntegerField(verbose_name="当前出价价格", default=0)
@@ -120,7 +131,7 @@ class CommodityDetails(models.Model):
         (3, "细节描述")
     )
     status = models.IntegerField(verbose_name="图片位置", choices=status_choice)
-    image_url = models.CharField(verbose_name="详情图片", max_length=256)
+    image_url = models.FileField(verbose_name="详情图片", max_length=256)
 
     class Meta:
         verbose_name_plural = "拍品详细图片"

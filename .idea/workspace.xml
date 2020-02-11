@@ -2,8 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d23253bf-548c-48f0-87f7-b5641f3e67e1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sale/migrations/0010_auto_20200211_1617.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sale/migrations/0011_auto_20200211_1730.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sale/migrations/0012_commodity_status.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sale/migrations/0013_auto_20200211_1925.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/statics/images/default-image.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/statics/images/loading.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/tencent/cos.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/templates/web/auction_item_add.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/templates/web/auction_item_editor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/templates/web/auction_item_show.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/views/SaleCategory/auction_item_show.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auction/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/auction/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sale/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/sale/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/templates/SaleCategory_show.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/web/SaleCategory_show.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/templates/salecategory_addeditor.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/web/salecategory_addeditor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/views/SaleCategory/SaleCategory_show.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/views/SaleCategory/SaleCategory_show.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/webModelForm/salecategorymodelform.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/webModelForm/salecategorymodelform.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -67,28 +87,31 @@
     </option>
   </component>
   <component name="ProjectId" id="1W5oyTVDPdXQydH7lrFKuSW3UJl" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/statics/js" />
+    <property name="ignore_missing_gitignore" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/statics" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\wechart\auction\statics" />
       <recent name="E:\wechart\auction\statics\js" />
       <recent name="E:\wechart\auction\statics\css" />
-      <recent name="E:\wechart\auction\statics" />
       <recent name="E:\wechart\auction\web\statics" />
       <recent name="E:\wechart\auction\web" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\wechart\auction\web\templates\web" />
       <recent name="E:\wechart\auction\statics\js" />
       <recent name="E:\wechart\auction" />
       <recent name="E:\wechart\auction\web" />
       <recent name="E:\wechart\auction\apps" />
-      <recent name="E:\wechart\auction\scripts\celery_test" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -305,7 +328,7 @@
       <workItem from="1579422032772" duration="121000" />
       <workItem from="1579422199636" duration="911000" />
       <workItem from="1580009586460" duration="2191000" />
-      <workItem from="1581296974901" duration="22246000" />
+      <workItem from="1581296974901" duration="42872000" />
     </task>
     <servers />
   </component>

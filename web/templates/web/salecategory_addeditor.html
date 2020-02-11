@@ -1,0 +1,63 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">{{ title }}专题
+        </div>
+        <div class="panel-body">
+
+            <form  novalidate method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in salecategory_modelformobj %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        <span class="text-danger">{{ field.errors.0 }}</span>
+                    </div>
+                {% endfor %}
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary pull-right">
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block js %}
+<script>
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "h+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        };
+
+        $(function () {
+            initDatepicker();
+        });
+
+        function initDatepicker() {
+            $('#id_start_time,#id_end_time #id_preview_start_time').datetimepicker({
+                language: "zh-CN",
+                minView: "hour", // month
+                sideBySide: true,
+                format: 'yyyy-mm-dd hh:ii',
+                bootcssVer: 3,
+                startDate: new Date(),
+                autoclose: true
+            })
+        }
+    </script>
+{% endblock %}
