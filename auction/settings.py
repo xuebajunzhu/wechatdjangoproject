@@ -154,7 +154,7 @@ REST_FRAMEWORK = {
 
 #################################################### celery ##############
 
-CELERY_BROKER_URL = 'redis://192.168.16.198:6381'
+CELERY_BROKER_URL = 'redis://192.168.1.125:6381'
 CELERY_ACCEPT_CONTENT = ['json']
-CELERY_RESULT_BACKEND = 'redis://192.168.16.198:6381'
+CELERY_RESULT_BACKEND = 'redis://192.168.1.125:6381'
 CELERY_TASK_SERIALIZER = 'json'

@@ -22,15 +22,17 @@ class SaleCategory(models.Model):
     video_url = models.CharField(verbose_name="专场首页视频", max_length=256, null=True, blank=True)
     title = models.CharField(verbose_name="专场标题", max_length=64)
     status_choice = (
-        (1, "预展中"),
-        (2, "拍卖中"),
-        (3, "已结束"),
-        (4, "未开始"),
+        (1, "未开始"),
+        (2, "预展中"),
+        (3, "拍卖中"),
+        (4, "已结束"),
+
     )
     status = models.IntegerField(verbose_name="状态", choices=status_choice, default=1)
+    preview_start_time = models.DateTimeField(verbose_name="预展时间", null=True, blank=True)
     start_time = models.DateTimeField(verbose_name="开始时间")
     end_time = models.DateTimeField(verbose_name="结束时间")
-    preview_start_time = models.DateTimeField(verbose_name="预展时间",null=True,blank=True)
+
     cash_deposit = models.PositiveIntegerField(verbose_name="全场保证金", default=10000)
 
     commodity_count = models.PositiveIntegerField(verbose_name="拍品数量", default=0)
@@ -43,7 +45,12 @@ class SaleCategory(models.Model):
 
     def __str__(self):
         return self.title
-
+class SaleCategory_task(models.Model):
+    salecategory = models.OneToOneField(verbose_name="拍卖专场", to="SaleCategory", on_delete=models.CASCADE,
+                                     related_name="salecategory_task")
+    preview_start_id = models.CharField(verbose_name="预展任务id",max_length=128,null=True,blank=True)
+    start_id = models.CharField(verbose_name="预展任务id",max_length=128,null=True,blank=True)
+    end_start_id = models.CharField(verbose_name="预展任务id",max_length=128,null=True,blank=True)
 
 class Commodity(models.Model):
     """
