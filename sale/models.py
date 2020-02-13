@@ -82,6 +82,7 @@ class Commodity(models.Model):
         (3, '拍卖中'),
         (4, '成交'),
         (5, '流拍'),
+        (6, '逾期未付款'),
     )
     status = models.PositiveSmallIntegerField(verbose_name='状态', choices=status_choices, default=1)
 
@@ -157,6 +158,12 @@ class BidRecord(models.Model):
     """
     bidder = models.ForeignKey(verbose_name="出价者", to="api.UserInfo", related_name="bidder")
     bid_time = models.DateTimeField(verbose_name="出价时间", auto_now_add=True)
+    status_choices = (
+        (1, '竞价'),
+        (2, '成交'),
+        (3, '逾期未付款'),
+    )
+    status = models.PositiveSmallIntegerField(verbose_name='状态', choices=status_choices, default=1)
     commodity = models.ForeignKey(verbose_name="拍品", to="Commodity", on_delete=models.CASCADE)
     bid_price = models.PositiveIntegerField(verbose_name="出价金额")
     salecategory = models.ForeignKey(verbose_name="所属专场", to="SaleCategory", on_delete=models.CASCADE)
@@ -176,11 +183,18 @@ class CashDeposit(models.Model):
     """
     user = models.ForeignKey(verbose_name="保证金缴纳者", to="api.UserInfo", related_name="cashd_deposit_user")
     status_choice = (
-        (1, "全场保证金"),
-        (2, "单品保证金")
+        (2, "全场保证金"),
+        (1, "单品保证金")
     )
     status = models.IntegerField(verbose_name="类型", choices=status_choice)
     guarantee_sum = models.PositiveIntegerField(verbose_name="保证金额")
+    margin_balance = models.PositiveIntegerField(verbose_name="保证金余额")
+    pay_type_choices = (
+        (1, '微信'),
+        (2, '余额')
+    )
+    pay_type = models.SmallIntegerField(verbose_name='支付方式', choices=pay_type_choices)
+
     commodity = models.ForeignKey(verbose_name="拍品", to="Commodity", on_delete=models.CASCADE, null=True, blank=True)
     salecategory = models.ForeignKey(verbose_name="所属专场", to="SaleCategory", on_delete=models.CASCADE)
 
@@ -208,11 +222,66 @@ class Pay_Order(models.Model):
     订单类
     """
     user = models.ForeignKey(verbose_name="用户", to="api.UserInfo", related_name="payorder_user")
-    money = models.PositiveIntegerField(verbose_name="金额")
+    commodity = models.ForeignKey(verbose_name="拍品", to="Commodity")
+    due_money = models.PositiveIntegerField(verbose_name="应付金额")
+    payment = models.PositiveIntegerField(verbose_name="实际付款金额")
     payment_time = models.DateTimeField(verbose_name="订单创建时间", auto_now_add=True)
+    deposit = models.ForeignKey(verbose_name='保证金', to='CashDeposit')
     order_number = models.CharField(verbose_name="订单号", null=True, blank=True, max_length=128)
+    twenty_four_task_id = models.CharField(verbose_name='24小时后的定时任务id',
+                                           max_length=32, null=True, blank=True)
     order_choices = (
         (1, "待支付"),
-        (2, "已支付")
+        (2, "代收货"),
+        (3, "已完成"),
+        (4, "逾期未付款"),
     )
     order_status = models.IntegerField(verbose_name="订单状态", choices=order_choices, default=1)
+    address = models.OneToOneField(verbose_name="送货地址",to="api.Adress",on_delete=models.CASCADE)
+
+class DepositRefundRecord(models.Model):
+    """保证金退款记录"""
+    uid = models.CharField(verbose_name="流水号",max_length=64)
+    status_choices = (
+        (1, "待退款"),
+        (2, '已退款'),
+    )
+    status = models.PositiveSmallIntegerField(verbose_name='状态',
+                                              choices=status_choices)
+    deposit = models.ForeignKey(verbose_name='保证金', to='CashDeposit')
+    amount = models.PositiveIntegerField(verbose_name='退款金额')
+
+class DepositDeduct(models.Model):
+    """扣除保证金"""
+    order = models.ForeignKey(verbose_name='订单', to='Pay_Order')
+    amount = models.PositiveIntegerField(verbose_name='金额')
+
+class Couponcash(models.Model):
+    """
+    优惠券
+
+    关联用户
+    关联订单
+    某一专场(有值不通用  ,没有值就是通用的)
+    优惠金额
+    优惠限制(满多少钱可以使用)
+    状态(有效,过期,已使用)
+    有效期(开始时间 失效时间)
+    """
+    user= models.ForeignKey(verbose_name="领取用户",to="api.UserInfo",null=True,blank=True)
+    pay_order = models.ForeignKey(verbose_name="订单",to=Pay_Order,null=True,blank=True)
+    salecategory = models.ForeignKey(verbose_name="专场",to="SaleCategory",null=True,blank=True)
+
+    discount_money=models.PositiveIntegerField(verbose_name="优惠金额")
+    limit_money = models.PositiveIntegerField(verbose_name="满足金额",null=True,blank=True)
+    status_choise=(
+        (1,"有效"),
+        (2,"过期"),
+        (3,"已使用")
+    )
+    status=models.PositiveIntegerField(verbose_name="优惠券状态",choices=status_choise,default=1)
+    create_time=models.DateTimeField(verbose_name="有效期起始日期",auto_now_add=True)
+    end_time=models.DateTimeField(verbose_name="失效日期")
+
+
+

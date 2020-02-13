@@ -13,6 +13,8 @@ from sale import models
 class  CommodityCashDepositModelSerializer(serializers.ModelSerializer):
 
     global_cash_deposit =serializers.IntegerField(source="salecategory.cash_deposit")
+    # image_url = serializers.CharField()#由于django的ORM是FileField字段,所有drf自动生成了FileField字段,带本地前缀+数据库值
+    image_url = serializers.CharField()#把默认的 FileField 改成CharField
     class Meta:
         model = models.Commodity
         fields = ["id", 'title', 'image_url', "min_price", "max_price", "cash_deposit","global_cash_deposit","starting_price","salecategory"]

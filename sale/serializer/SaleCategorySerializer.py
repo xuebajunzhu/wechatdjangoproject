@@ -11,6 +11,7 @@ class SaleCategoryModelSerializer(serializers.ModelSerializer):
     end_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     status = serializers.CharField(source="get_status_display")
     commodity_image_list = serializers.SerializerMethodField()
+    image_url= serializers.CharField()
 
     class Meta:
         model = models.SaleCategory
@@ -22,7 +23,7 @@ class SaleCategoryModelSerializer(serializers.ModelSerializer):
         commodity_objs = obj.commodity.all()
         obj.Commodity_count = commodity_objs.count()
         obj.save()
-        return [i.image_url for i in commodity_objs]
+        return [i.image_url.name for i in commodity_objs]
 
 
 class CommodityModelSerializer(serializers.ModelSerializer):
@@ -30,6 +31,8 @@ class CommodityModelSerializer(serializers.ModelSerializer):
     present_price = serializers.SerializerMethodField()
     transaction_price = serializers.SerializerMethodField()
     care = serializers.SerializerMethodField()
+    image_url = serializers.CharField()
+
 
     class Meta:
         model = models.Commodity
@@ -71,6 +74,8 @@ class SaleCategoryDetialModelSerializer(serializers.ModelSerializer):
     start_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     end_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     status = serializers.CharField(source="get_status_display")
+    image_url = serializers.CharField()
+
 
     class Meta:
         model = models.SaleCategory

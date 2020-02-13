@@ -46,7 +46,7 @@ class SaleCategorModelForm(BootstrapModelForm):
         # 获取用户提交的文件对象
 
         cleaned_data = self.cleaned_data
-        print(cleaned_data)
+
         obj = cleaned_data.get("image_url")
         if not obj:
             return cleaned_data
@@ -71,17 +71,17 @@ class AuctionItemAddModelForm(BootstrapModelForm):
     def clean(self):
         cleaned_data = self.cleaned_data
         # 上传文件
-        cover_file_object = cleaned_data.get('cover')
+        cover_file_object = cleaned_data.get('image_url')
         if not cover_file_object or isinstance(cover_file_object, FieldFile):
             return cleaned_data
         ext = cover_file_object.name.rsplit('.', maxsplit=1)[-1]
         file_name = "{0}.{1}".format(str(uuid.uuid4()), ext)
-        cleaned_data['cover'] = upload_file(cover_file_object, file_name)
+        cleaned_data['image_url'] = upload_file(cover_file_object, file_name)
         return cleaned_data
 
 
 class AuctionItemEditModelForm(BootstrapModelForm):
-    exclude_bootstrap_class = ['cover']
+    exclude_bootstrap_class = ['image_url']
 
     class Meta:
         model = models.Commodity
@@ -90,12 +90,12 @@ class AuctionItemEditModelForm(BootstrapModelForm):
     def clean(self):
         cleaned_data = self.cleaned_data
         # 上传文件
-        cover_file_object = cleaned_data.get('cover')
+        cover_file_object = cleaned_data.get('image_url')
         if not cover_file_object or isinstance(cover_file_object, FieldFile):
             return cleaned_data
         ext = cover_file_object.name.rsplit('.', maxsplit=1)[-1]
         file_name = "{0}.{1}".format(str(uuid.uuid4()), ext)
-        cleaned_data['cover'] = upload_file(cover_file_object, file_name)
+        cleaned_data['image_url'] = upload_file(cover_file_object, file_name)
         return cleaned_data
 
 
@@ -108,17 +108,17 @@ class InformationModelForm(forms.ModelForm):
 class AuctionItemImageModelForm(BootstrapModelForm):
     class Meta:
         model = models.CommodityDetails
-        exclude = ['commodity',"status"]
+        exclude = ['commodity']
 
 
     def clean(self):
         cleaned_data = self.cleaned_data
         # 上传文件
-        cover_file_object = cleaned_data.get('img')
+        cover_file_object = cleaned_data.get('image_url')
         if not cover_file_object or isinstance(cover_file_object, FieldFile):
             return cleaned_data
 
         ext = cover_file_object.name.rsplit('.', maxsplit=1)[-1]
         file_name = "{0}.{1}".format(str(uuid.uuid4()), ext)
-        cleaned_data['img'] = upload_file(cover_file_object, file_name)
+        cleaned_data['image_url'] = upload_file(cover_file_object, file_name)
         return cleaned_data

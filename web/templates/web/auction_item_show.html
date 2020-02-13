@@ -70,11 +70,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for item in item_list %}
+                {% for item in commodity_list %}
                     <tr>
                         <td>
                             <a href="{% url 'web:auction_item_editor' salecategory_id=salecategory_obj.id item_id=item.id %}">
-                                <img style="height: 60px;" src="{{ item.cover }}">
+                                <img style="height: 60px;" src="{{ item.image_url }}">
                             </a>
                         </td>
                         <td>
@@ -87,7 +87,7 @@
                         <td>{{ item.get_status_display }}</td>
                         <td>
                             <a class="btn btn-danger btn-xs"
-                               onclick="removeRow(this,'{% url 'web:auction_item_delete' item_id=item.id %}')">删除</a>
+                               onclick="removeRow(this,'{% url 'web:auction_item_del' item_id=item.id %}')">删除</a>
                         </td>
                     </tr>
                 {% endfor %}

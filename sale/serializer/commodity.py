@@ -12,6 +12,7 @@ class CommodityModelSerializer(serializers.ModelSerializer):
     care = serializers.SerializerMethodField()
     information = serializers.SerializerMethodField()
     commoditydetails_imageslist = serializers.SerializerMethodField()
+    image_url = serializers.CharField()#把默认的 FileField 改成CharField
 
     class Meta:
         model = models.Commodity
@@ -54,10 +55,10 @@ class CommodityModelSerializer(serializers.ModelSerializer):
         dic = {}
         for commoditydetails_obj in commoditydetails_objs:
             if commoditydetails_obj.status == 1:
-                dic.setdefault("cover", []).append(commoditydetails_obj.image_url)
-                dic.setdefault("particulars", []).append(commoditydetails_obj.image_url)
+                dic.setdefault("cover", []).append(commoditydetails_obj.image_url.name)
+                dic.setdefault("particulars", []).append(commoditydetails_obj.image_url.name)
             elif commoditydetails_obj.status == 2:
-                dic.setdefault("particulars", []).append(commoditydetails_obj.image_url)
+                dic.setdefault("particulars", []).append(commoditydetails_obj.image_url.name)
             else:
-                dic.setdefault("detail", []).append(commoditydetails_obj.image_url)
+                dic.setdefault("detail", []).append(commoditydetails_obj.image_url.name)
         return dic

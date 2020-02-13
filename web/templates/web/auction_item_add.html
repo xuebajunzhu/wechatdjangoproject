@@ -76,10 +76,10 @@
                             <div class="panel-body">
                                 <div class="form-inline">
                                     <div class="form-group" style="position: relative;">
-                                        <input type="text" class="form-control input-sm" placeholder="项" id="key">
+                                        <input type="text" class="form-control input-sm" placeholder="项" id="title">
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control input-sm" placeholder="值" id="value">
+                                        <input type="text" class="form-control input-sm" placeholder="值" id="content">
                                     </div>
                                     <a class="btn btn-success btn-sm" id="btnAddSpecification">
                                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 添 加
@@ -113,14 +113,14 @@
                                         <tr>
                                             <td>
                                                 <div class="file-view">
-                                                    <input class="view-file" type="file" name="img">
+                                                    <input class="view-file" type="file" name="image_url">
                                                     <img class="view-img"
                                                          src="{% static 'images/default-image.png' %}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <input type="checkbox">
-                                                <input type="text" name="show" hidden>
+                                                <input type="text" name="show" hidden value="2">
                                             </td>
                                             <td>
                                                 <a class="btn btn-danger btn-xs delete">删除</a>
@@ -194,18 +194,18 @@
         function bindAddSpecification() {
             $('#btnAddSpecification').click(function () {
                 var info = {
-                    "key": $('#key'),
-                    "value": $('#value')
+                    "title": $('#title'),
+                    "content": $('#content')
                 };
                 var tr = $('<tr>');
                 for (var k in info) {
                     info[k].parent().removeClass('has-error');
-                    var value = info[k].val();
-                    if (value.trim().length < 1) {
+                    var content = info[k].val();
+                    if (content.trim().length < 1) {
                         info[k].parent().addClass('has-error');
                         return
                     }
-                    tr.append($('<td>').text(value).attr('name', k));
+                    tr.append($('<td>').text(content).attr('name', k));
                 }
                 tr.append($("<td>").html('<a class="btn btn-danger btn-xs delete">删除</a>'));
                 $("#areaSpecification").append(tr);
@@ -267,8 +267,8 @@
                         console.log(res);
                         if (!res.status) {
                             $('#loading').addClass('hide');
-                            $.each(res.errors, function (key, text) {
-                                $('#itemForm').find('[name="' + key + '"]').next().text(text);
+                            $.each(res.errors, function (title, text) {
+                                $('#itemForm').find('[name="' + title + '"]').next().text(text);
                             });
                             return
                         }

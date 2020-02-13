@@ -35,19 +35,19 @@ def add(request, salecategory_id):
         return JsonResponse({
             'status': True,
             'data': {
-                'detail_url': reverse('auction_item_detail_add', kwargs={'item_id': instance.id}),
-                'image_url': reverse('auction_item_image_add', kwargs={'item_id': instance.id}),
-                'list_url': reverse('auction_item_list', kwargs={'salecategory_id': salecategory_id})
+                'detail_url': reverse('web:auction_item_detail_add', kwargs={'item_id': instance.id}),
+                'image_url': reverse('web:auction_item_image_add', kwargs={'item_id': instance.id}),
+                'list_url': reverse('web:auction_item_list', kwargs={'salecategory_id': salecategory_id})
             }
         })
 
     return JsonResponse({'status': False, 'errors': form.errors})
 
 
-def editor(request, auction_id, item_id):
+def editor(request, salecategory_id,item_id):
     item_object = models.Commodity.objects.filter(id=item_id).first()
-    detail_object_list = models.Information.objects.filter(item=item_object)
-    image_object_list = models.CommodityDetails.objects.filter(item=item_object)
+    detail_object_list = models.Information.objects.filter(commodity=item_object)
+    image_object_list = models.CommodityDetails.objects.filter(commodity=item_object)
     context = {
         "item_object": item_object,
         "detail_object_list": detail_object_list,
@@ -79,7 +79,8 @@ def information_add(request, item_id):
     :return:
     """
     detail_list = json.loads(request.body.decode('utf-8'))
-    object_list = [models.Information(**info, item_id=item_id) for info in detail_list if all(info.values())]
+    print(detail_list)
+    object_list = [models.Information(**info, commodity_id=item_id) for info in detail_list if all(info.values())]
     models.Information.objects.bulk_create(object_list)
     return JsonResponse({'status': True})
 
@@ -96,7 +97,7 @@ def information_add_one(request, item_id):
         return JsonResponse({'status': False})
     form = salecategorymodelform.InformationModelForm(data=request.POST)
     if form.is_valid():
-        form.instance.item_id = item_id
+        form.instance.commodity_id = item_id
         instance = form.save()
         return JsonResponse({'status': True, 'data': {'id': instance.id}})
     return JsonResponse({'status': False, 'errors': form.errors})
@@ -119,6 +120,7 @@ def auction_item_image_add(request, item_id):
     """
     show_list = request.POST.getlist('show')
     image_object_list = request.FILES.getlist('img')
+
     orm_object_list = []
     for index in range(len(image_object_list)):
         image_object = image_object_list[index]
@@ -127,7 +129,8 @@ def auction_item_image_add(request, item_id):
         ext = image_object.name.rsplit('.', maxsplit=1)[-1]
         file_name = "{0}.{1}".format(str(uuid.uuid4()), ext)
         cos_path = upload_file(image_object, file_name)
-        orm_object_list.append(models.CommodityDetails(img=cos_path, item_id=item_id, status=bool(show_list[index])))
+        print(cos_path)
+        orm_object_list.append(models.CommodityDetails(image_url=cos_path, commodity_id=item_id, status=bool(show_list[index])))
     if orm_object_list:
         models.CommodityDetails.objects.bulk_create(orm_object_list)
     return JsonResponse({'status': True})
@@ -135,9 +138,10 @@ def auction_item_image_add(request, item_id):
 
 @csrf_exempt
 def auction_item_image_add_one(request, item_id):
-    form = salecategorymodelform.AuctionItemImageModelForm(data=request.POST, files=request.FILES)
+    status = {"status":request.POST.get("status")[0]}
+    form = salecategorymodelform.AuctionItemImageModelForm(data=status, files=request.FILES)
     if form.is_valid():
-        form.instance.item_id = item_id
+        form.instance.commodity_id = item_id
         instance = form.save()
         return JsonResponse({'status': True, 'data': {'id': instance.id}})
     return JsonResponse({'status': False, 'errors': form.errors})

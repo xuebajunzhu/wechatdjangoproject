@@ -16,11 +16,16 @@ class UserInfo(models.Model):
     avatarUrl = models.CharField(verbose_name="用户头像url", max_length=256, null=True, blank=True)
     message = models.OneToOneField(verbose_name="用户详细信息", to="Message", on_delete=models.CASCADE)
     open_id =models.CharField(verbose_name="openid",null=True,blank=True,max_length=128)
-
+    balance = models.PositiveIntegerField(verbose_name='账户余额', default=1000)
+    session_key = models.CharField(verbose_name='微信会话秘钥', max_length=32)
     def __str__(self):
         return self.nickName
 
-
+class Adress(models.Model):
+    user=models.ForeignKey(verbose_name="用户",to="UserInfo")
+    linkman = models.CharField(verbose_name="联系人姓名",max_length=48)
+    linkphone = models.CharField(verbose_name="联系人电话",max_length=16)
+    address = models.TextField(verbose_name="送货地址")
 class Message(models.Model):
     """
         收到点赞数
